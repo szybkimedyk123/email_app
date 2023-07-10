@@ -1,0 +1,32 @@
+{
+  "adress": [
+    {
+      "name": "",
+      "imap_host": "",
+      "smtp_host": "",
+	  "imap_port": "",
+	  "smtp_port": ""
+    },
+    {
+      "name": "",
+      "imap_host": "",
+      "smtp_host": "",
+	  "imap_port": "",
+	  "smtp_port": ""
+    },
+    {
+      "name": "",
+      "imap_host": "",
+      "smtp_host": "",
+	  "imap_port": "",
+	  "smtp_port": ""
+    },
+    {
+      "name": "",
+      "imap_host": "",
+      "smtp_host": "",
+	  "imap_port": "",
+	  "smtp_port": ""
+    }
+  ]
+}
