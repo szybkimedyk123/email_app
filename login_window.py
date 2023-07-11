@@ -111,9 +111,13 @@ class LoginMenu(QWidget):
                 imap_port = selected_address['imap_port']
                 smtp_port = selected_address['smtp_port']
                 self.text_imap_host.setText(imap_host)
+                self.text_imap_host.setReadOnly(True)
                 self.text_smtp_host.setText(smtp_host)
+                self.text_smtp_host.setReadOnly(True)
                 self.text_imap_port.setText(imap_port)
+                self.text_imap_port.setReadOnly(True)
                 self.text_smtp_port.setText(smtp_port)
+                self.text_smtp_port.setReadOnly(True)
 
     '''
     def radio_action(self):
