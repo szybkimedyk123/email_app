@@ -1,4 +1,7 @@
 from PySide2.QtWidgets import *
+import smtplib
+import imaplib
+import send_window
 import json
 import sys
 
@@ -52,11 +55,11 @@ class LoginMenu(QWidget):
         self.radio_advance.addWidget(self.popular_sites, 0, 0, 1, 2)
         email_layout.addLayout(self.radio_advance)
 
-        self.label_imap_host = QLabel("IAMP Host:")
+        self.label_imap_host = QLabel("IMAP Host:")
         self.text_imap_host = QLineEdit()
-        self.label_smtp_host = QLabel("STMP Host:")
+        self.label_smtp_host = QLabel("SMTP Host:")
         self.text_smtp_host = QLineEdit()
-        self.label_imap_port = QLabel("IAMP Port:")
+        self.label_imap_port = QLabel("IMAP Port:")
         self.text_imap_port = QLineEdit()
         self.label_smtp_port = QLabel("SMTP Port:")
         self.text_smtp_port = QLineEdit()
@@ -72,7 +75,7 @@ class LoginMenu(QWidget):
 
         buttons_group = QHBoxLayout()
         self.button_login = QPushButton("Login")
-        self.button_login.clicked.connect(self.login)
+        self.button_login.clicked.connect(self.login_action)
         buttons_group.addWidget(self.button_login)
         self.button_clear = QPushButton("Clear")
         self.button_clear.clicked.connect(self.clear)
@@ -81,9 +84,32 @@ class LoginMenu(QWidget):
 
         self.setLayout(email_layout)
 
-    def login(self):
-        user_email = self.text_email
-        user_password = self.text_password
+    def login_action(self):
+        if self.text_email.text() == "" or self.text_password.text() == "" or self.text_smtp_host.text() == "" \
+            or self.text_smtp_port.text() == "" or self.text_imap_host.text() == "" or self.text_imap_port.text() == "":
+            QMessageBox.warning(self, "Log in failed", "Missing information")
+        else:
+            user_email = self.text_email.text()
+            user_password = self.text_password.text()
+            user_imap_host = self.text_imap_host.text()
+            user_smtp_host = self.text_smtp_host.text()
+            user_imap_port = self.text_imap_port.text()
+            user_smtp_port = self.text_smtp_port.text()
+
+            server = imaplib.IMAP4_SSL(user_imap_host, user_imap_port)
+
+            try:
+                server.login(user_email, user_password)
+                server.select("INBOX")
+                status, messages = server.search(None, "ALL")
+
+                if status == 'OK':
+                    self.close()
+                    self.new_send_window = send_window.EmailSend(user_email, user_password, user_imap_host, user_smtp_host ,user_imap_port, user_smtp_port)
+                    self.new_send_window.show()
+
+            except imaplib.IMAP4.error:
+                QMessageBox.information(self, "Log in failed", "Incorrect email or password")
 
     def clear(self):
         self.text_email.clear()
@@ -97,9 +123,13 @@ class LoginMenu(QWidget):
         selected_value = self.popular_sites.currentText()
 
         if selected_value == "None":
+            self.text_imap_host.setReadOnly(False)
             self.text_imap_host.setText("")
+            self.text_smtp_host.setReadOnly(False)
             self.text_smtp_host.setText("")
+            self.text_imap_port.setReadOnly(False)
             self.text_imap_port.setText("")
+            self.text_smtp_port.setReadOnly(False)
             self.text_smtp_port.setText("")
 
         else:
@@ -128,13 +158,6 @@ class LoginMenu(QWidget):
             self.radio_advance_text.setEnabled(True)
             self.radio_advance_list.setEnabled(False)
     '''
-
-    @staticmethod
-    def load_names():
-        with open('email_servers.json') as file:
-            data = json.load(file)
-            address = [item['name'] for item in data['address']]
-            return address, data
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
