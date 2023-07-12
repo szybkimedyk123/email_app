@@ -1,32 +1,39 @@
 {
-  "adress": [
+  "address": [
     {
-      "name": "",
-      "imap_host": "",
-      "smtp_host": "",
-	  "imap_port": "",
-	  "smtp_port": ""
+      "name": "Gmail",
+      "imap_host": "imap.gmail.com",
+      "smtp_host": "imap.gmail.com",
+	  "imap_port": "993",
+	  "smtp_port": "587"
     },
     {
-      "name": "",
-      "imap_host": "",
-      "smtp_host": "",
-	  "imap_port": "",
-	  "smtp_port": ""
+      "name": "Interia",
+      "imap_host": "poczta.interia.pl",
+      "smtp_host": "poczta.interia.pl",
+	  "imap_port": "993",
+	  "smtp_port": "587"
     },
     {
-      "name": "",
-      "imap_host": "",
-      "smtp_host": "",
-	  "imap_port": "",
-	  "smtp_port": ""
+      "name": "Onet",
+      "imap_host": "imap.poczta.onet.pl",
+      "smtp_host": "smtp.poczta.onet.pl",
+	  "imap_port": "993",
+	  "smtp_port": "465"
     },
     {
-      "name": "",
-      "imap_host": "",
-      "smtp_host": "",
-	  "imap_port": "",
-	  "smtp_port": ""
+      "name": "WP",
+      "imap_host": "imap.wp.pl",
+      "smtp_host": "imap.wp.pl",
+	  "imap_port": "993",
+	  "smtp_port": "465"
+    },
+    {
+      "name": "O2",
+      "imap_host": "poczta.o2.pl",
+      "smtp_host": "poczta.o2.pl",
+	  "imap_port": "993",
+	  "smtp_port": "465"
     }
   ]
 }
