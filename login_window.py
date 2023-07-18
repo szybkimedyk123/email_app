@@ -2,6 +2,7 @@ from PySide2.QtWidgets import *
 import smtplib
 import imaplib
 import send_window
+import receive_window
 import json
 import sys
 
@@ -105,7 +106,7 @@ class LoginMenu(QWidget):
 
                 if status == 'OK':
                     self.close()
-                    self.new_send_window = send_window.EmailSend(user_email, user_password, user_imap_host, user_smtp_host ,user_imap_port, user_smtp_port)
+                    self.new_send_window = receive_window.EmailReceive(user_email, user_password, user_imap_host, user_smtp_host ,user_imap_port, user_smtp_port)
                     self.new_send_window.show()
 
             except imaplib.IMAP4.error:
