@@ -1,18 +1,18 @@
 from PySide2.QtWidgets import *
+from PySide2.QtGui import QIcon
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import smtplib
 import receive_window
-import imaplib
-import json
-import sys
+
 
 class EmailSend(QWidget):
     def __init__(self, user_email, user_password, user_imap_host, user_smtp_host ,user_imap_port, user_smtp_port):
         super().__init__()
 
         self.setWindowTitle("Email")
+        self.setWindowIcon(QIcon("images/image_email.png"))
         self.resize(800, 400)
         self.send_layout = QGridLayout()
         self.file_added = None

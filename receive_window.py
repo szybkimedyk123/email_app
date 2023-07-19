@@ -1,16 +1,17 @@
 from PySide2.QtWidgets import *
+from PySide2.QtGui import QIcon
 import send_window
 import imaplib
 import time
 import email
-import os
-import sys
+
 
 class EmailReceive(QWidget):
     def __init__(self, user_email, user_password, user_imap_host, user_smtp_host, user_imap_port, user_smtp_port):
         super().__init__()
 
         self.setWindowTitle("Email")
+        self.setWindowIcon(QIcon("images/image_email.png"))
         self.resize(800, 600)
         self.receive_layout = QGridLayout()
         self.user_email = user_email
@@ -22,13 +23,16 @@ class EmailReceive(QWidget):
 
         self.list_emails = QListWidget()
         self.list_emails.itemClicked.connect(self.show_mail)
+        self.label_list_emails = QLabel("Emails:")
         self.text_emails = QTextEdit()
         self.text_emails.setReadOnly(True)
+        self.label_text_emails = QLabel("Body:")
         self.from_emails = QLineEdit()
         self.from_emails.setReadOnly(True)
+        self.label_from_emails = QLabel("From:")
         self.subject_emails = QLineEdit()
         self.subject_emails.setReadOnly(True)
-        self.text_display = QTextEdit()
+        self.label_subject_emails = QLabel("Subject:")
         self.button_refresh = QPushButton("Refresh")
         self.button_refresh.clicked.connect(self.refresh_action)
         self.button_send_window = QPushButton("Back to send")
@@ -36,21 +40,28 @@ class EmailReceive(QWidget):
         self.button_download_attachment = QPushButton("Download attachment")
         self.button_download_attachment.clicked.connect(self.download_attachment)
 
-        self.receive_layout.addWidget(self.list_emails, 0, 0)
-        self.receive_layout.addWidget(self.from_emails, 1, 0)
-        self.receive_layout.addWidget(self.subject_emails, 2, 0)
-        self.receive_layout.addWidget(self.text_emails, 3, 0)
-        #self.receive_layout.addWidget(self.text_display, 2, 0)
+        self.receive_layout.addWidget(self.label_list_emails, 0, 0)
+        self.receive_layout.addWidget(self.list_emails, 0, 1)
+        self.receive_layout.addWidget(self.label_from_emails, 1, 0)
+        self.receive_layout.addWidget(self.from_emails, 1, 1)
+        self.receive_layout.addWidget(self.label_subject_emails, 2, 0)
+        self.receive_layout.addWidget(self.subject_emails, 2, 1)
+        self.receive_layout.addWidget(self.label_text_emails, 3, 0)
+        self.receive_layout.addWidget(self.text_emails, 3, 1)
         self.receive_layout.addWidget(self.button_refresh, 4, 0)
         self.receive_layout.addWidget(self.button_send_window, 4 ,1)
-        self.receive_layout.addWidget(self.button_download_attachment, 4, 2)
+        #self.receive_layout.addWidget(self.button_download_attachment, 5, 1)
 
         self.setLayout(self.receive_layout)
 
         self.load_emails()
 
     def refresh_action(self):
-        None
+        self.list_emails.clear()
+        self.text_emails.clear()
+        self.from_emails.clear()
+        self.subject_emails.clear()
+        self.load_emails()
 
     def download_attachment(self):
         None
