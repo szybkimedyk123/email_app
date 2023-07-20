@@ -6,10 +6,12 @@ import time
 import email
 
 
+#reveive window
 class EmailReceive(QWidget):
     def __init__(self, user_email, user_password, user_imap_host, user_smtp_host, user_imap_port, user_smtp_port):
         super().__init__()
 
+        #window init
         self.setWindowTitle("Email")
         self.setWindowIcon(QIcon("images/image_email.png"))
         self.resize(800, 600)
@@ -21,6 +23,7 @@ class EmailReceive(QWidget):
         self.user_imap_port = user_imap_port
         self.user_smtp_port = user_smtp_port
 
+        #adding buttons/labels/text to window
         self.list_emails = QListWidget()
         self.list_emails.itemClicked.connect(self.show_mail)
         self.label_list_emails = QLabel("Emails:")
@@ -56,6 +59,7 @@ class EmailReceive(QWidget):
 
         self.load_emails()
 
+    #refreshing emails
     def refresh_action(self):
         self.list_emails.clear()
         self.text_emails.clear()
@@ -63,9 +67,11 @@ class EmailReceive(QWidget):
         self.subject_emails.clear()
         self.load_emails()
 
+
     def download_attachment(self):
         None
 
+    #loading emails
     def load_emails(self):
         server = imaplib.IMAP4_SSL(self.user_imap_host, self.user_imap_port)
 
@@ -99,6 +105,7 @@ class EmailReceive(QWidget):
 
         server.logout()
 
+    #adding date info to emails
     def get_date(self, email_message):
         date_str = email_message.get("Delivery-Date") or email_message.get("Date")
 
@@ -113,6 +120,7 @@ class EmailReceive(QWidget):
 
         return date_str
 
+    #display emails
     def show_mail(self, item):
         email_info = item.text().split('\n')
         from_ = email_info[0][6:]
@@ -121,6 +129,7 @@ class EmailReceive(QWidget):
         self.subject_emails.setText(subject)
         self.text_emails.setPlainText(item.data(32))
 
+    #changing window to send window
     def back_to_send_window(self):
         self.close()
         self.new_send_window = send_window.EmailSend(self.user_email, self.user_password, self.user_imap_host,

@@ -7,10 +7,12 @@ import smtplib
 import receive_window
 
 
+#sending window
 class EmailSend(QWidget):
     def __init__(self, user_email, user_password, user_imap_host, user_smtp_host ,user_imap_port, user_smtp_port):
         super().__init__()
 
+        #window init
         self.setWindowTitle("Email")
         self.setWindowIcon(QIcon("images/image_email.png"))
         self.resize(800, 400)
@@ -24,6 +26,7 @@ class EmailSend(QWidget):
         self.user_imap_port = user_imap_port
         self.user_smtp_port = user_smtp_port
 
+        #adding buttons/labels/text to window
         self.label_to = QLabel("To:")
         self.text_to = QLineEdit()
         self.label_subject = QLabel("Subject:")
@@ -50,6 +53,7 @@ class EmailSend(QWidget):
 
         self.setLayout(self.send_layout)
 
+    #send email action
     def send_mail(self):
         if self.text_to.text() == "":
             QMessageBox.warning(self, "Send failed", "Missing information")
@@ -84,12 +88,14 @@ class EmailSend(QWidget):
             except:
                 QMessageBox.critical(self, "Error", "Sent failed")
 
+    #change window
     def open_mails(self):
         self.close()
-        self.new_recive_window = receive_window.EmailReceive(self.user_email, self.user_password, self.user_imap_host, self.user_smtp_host,
-                                                     self.user_imap_port, self.user_smtp_port)
+        self.new_recive_window = receive_window.EmailReceive(self.user_email, self.user_password, self.user_imap_host,
+                                                             self.user_smtp_host, self.user_imap_port, self.user_smtp_port)
         self.new_recive_window.show()
 
+    #adding attachment to email
     def add_attachment(self):
         file_dialog = QFileDialog()
         file_path, _ = file_dialog.getOpenFileName(self, "Select file", "", "All files (*.*)")
@@ -98,6 +104,7 @@ class EmailSend(QWidget):
             self.file_added = file_path
             self.attachment_filename = file_path.split("/")[-1]
 
+    #clear window
     def clear_email(self):
         self.text_to.clear()
         self.text_body.clear()

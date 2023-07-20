@@ -6,6 +6,8 @@ import receive_window
 import json
 import sys
 
+
+#login window
 class LoginMenu(QWidget):
     def __init__(self):
         super().__init__()
@@ -15,6 +17,7 @@ class LoginMenu(QWidget):
         self.resize(400, 400)
         email_layout = QVBoxLayout()
 
+        #email input
         email_input = QHBoxLayout()
         self.label_email = QLabel("Email:")
         self.text_email = QLineEdit()
@@ -22,6 +25,7 @@ class LoginMenu(QWidget):
         email_input.addWidget(self.text_email)
         email_layout.addLayout(email_input)
 
+        #passowrd input
         password_input = QHBoxLayout()
         self.label_password = QLabel("Password:")
         self.text_password = QLineEdit()
@@ -29,6 +33,8 @@ class LoginMenu(QWidget):
         password_input.addWidget(self.label_password)
         password_input.addWidget(self.text_password)
         email_layout.addLayout(password_input)
+
+        #site/server section
         self.radio_advance = QGridLayout()
         self.popular_sites = QComboBox()
         self.popular_sites.addItem("None")
@@ -82,6 +88,7 @@ class LoginMenu(QWidget):
 
         self.setLayout(email_layout)
 
+    #login and connecting to server
     def login_action(self):
         if self.text_email.text() == "" or self.text_password.text() == "" or self.text_smtp_host.text() == "" \
             or self.text_smtp_port.text() == "" or self.text_imap_host.text() == "" or self.text_imap_port.text() == "":
@@ -109,6 +116,7 @@ class LoginMenu(QWidget):
             except imaplib.IMAP4.error:
                 QMessageBox.information(self, "Log in failed", "Incorrect email or password")
 
+    #clear action
     def clear(self):
         self.popular_sites.setCurrentIndex(0)
         self.text_email.clear()
@@ -120,7 +128,7 @@ class LoginMenu(QWidget):
         self.text_site_name.setVisible(True)
         self.label_site_name.setVisible(True)
 
-
+    #changing parameters
     def update_data(self, index):
         selected_value = self.popular_sites.currentText()
 
@@ -144,6 +152,7 @@ class LoginMenu(QWidget):
                 self.text_site_name.setVisible(False)
                 self.text_site_name.clear()
                 self.label_site_name.setVisible(False)
+                self.add_button.setVisible(False)
                 imap_host = selected_address['imap_host']
                 smtp_host = selected_address['smtp_host']
                 imap_port = selected_address['imap_port']
@@ -157,6 +166,7 @@ class LoginMenu(QWidget):
                 self.text_smtp_port.setText(smtp_port)
                 self.text_smtp_port.setReadOnly(True)
 
+    #adding new sites to json file
     def add_sites(self):
         user_site_name = self.text_site_name.text()
         is_site = self.popular_sites.findText(user_site_name)
@@ -182,6 +192,7 @@ class LoginMenu(QWidget):
             self.address_data[new_site['name']] = new_site
             print(self.address_data)
             QMessageBox.information(self, "Success", "Added new site correctly")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
